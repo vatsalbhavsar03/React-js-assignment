@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js" integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>State City Dropdown</title>
+</head>
+<body>
+    <h1 class="text-center">State City Dropdown </h1>
+    <div class="container d-flex gap-5 mt-5">
+        <select id="state" class="form-control">
+            <option value="">--Select State--</option>
+        </select>
+        <select id="city" class="form-control" disabled>
+            <option value="">--Select City--</option>
+        </select>
+    </div>
+</body>
+<script>
+    const stateCity = {
+    "Andhra Pradesh": [
+        "Visakhapatnam",
+        "Vijayawada",
+        "Guntur",
+        "Nellore",
+        "Kurnool",
+        "Rajahmundry",
+        "Tirupati",
+        "Kakinada",
+        "Kadapa",
+        "Anantapur"
+    ],
+    "Arunachal Pradesh": [
+        "Itanagar",
+        "Naharlagun",
+        "Pasighat",
+        "Roing",
+        "Tezu",
+        "Ziro",
+        "Bomdila",
+        "Seppa",
+        "Tawang",
+        "Along"
+    ],
+    "Assam": [
+        "Guwahati",
+        "Silchar",
+        "Dibrugarh",
+        "Jorhat",
+        "Nagaon",
+        "Tinsukia",
+        "Tezpur",
+        "Bongaigaon",
+        "Dhubri",
+        "Goalpara"
+    ],
+    "Bihar": [
+        "Patna",
+        "Gaya",
+        "Bhagalpur",
+        "Muzaffarpur",
+        "Purnia",
+        "Darbhanga",
+        "Arrah",
+        "Bihar Sharif",
+        "Katihar",
+        "Munger"
+    ],
+    "Chhattisgarh": [
+        "Raipur",
+        "Bhilai",
+        "Bilaspur",
+        "Korba",
+        "Durg",
+        "Raigarh",
+        "Rajnandgaon",
+        "Jagdalpur",
+        "Ambikapur",
+        "Dhamtari"
+    ],
+    "Goa": [
+        "Panaji",
+        "Vasco da Gama",
+        "Margao",
+        "Mapusa",
+        "Ponda",
+        "Bicholim",
+        "Curchorem",
+        "Sanquelim",
+        "Cuncolim",
+        "Valpoi"
+    ],
+    "Gujarat": [
+        "Ahmedabad",
+        "Surat",
+        "Vadodara",
+        "Rajkot",
+        "Bhavnagar",
+        "Jamnagar",
+        "Junagadh",
+        "Gandhinagar",
+        "Nadiad",
+        "Mehsana"
+    ],
+    "Haryana": [
+        "Faridabad",
+        "Gurugram",
+        "Panipat",
+        "Ambala",
+        "Yamunanagar",
+        "Rohtak",
+        "Hisar",
+        "Karnal",
+        "Sonipat",
+        "Panchkula"
+    ],
+    "Himachal Pradesh": [
+        "Shimla",
+        "Mandi",
+        "Solan",
+        "Dharamshala",
+        "Bilaspur",
+        "Una",
+        "Hamirpur",
+        "Kullu",
+        "Chamba",
+        "Nahan"
+    ],
+    "Jharkhand": [
+        "Ranchi",
+        "Jamshedpur",
+        "Dhanbad",
+        "Bokaro Steel City",
+        "Deoghar",
+        "Phusro",
+        "Hazaribagh",
+        "Giridih",
+        "Ramgarh",
+        "Medininagar"
+    ],
+    "Karnataka": [
+        "Bangalore",
+        "Hubli",
+        "Mysore",
+        "Gulbarga",
+        "Belgaum",
+        "Mangalore",
+        "Davanagere",
+        "Bellary",
+        "Bijapur",
+        "Shimoga"
+    ],
+    "Kerala": [
+        "Thiruvananthapuram",
+        "Kochi",
+        "Kozhikode",
+        "Thrissur",
+        "Kollam",
+        "Palakkad",
+        "Kannur",
+        "Alappuzha",
+        "Kottayam",
+        "Kasaragod"
+    ],
+    "Madhya Pradesh": [
+        "Indore",
+        "Bhopal",
+        "Jabalpur",
+        "Gwalior",
+        "Ujjain",
+        "Sagar",
+        "Dewas",
+        "Satna",
+        "Ratlam",
+        "Rewa"
+    ],
+    "Maharashtra": [
+        "Mumbai",
+        "Pune",
+        "Nagpur",
+        "Thane",
+        "Nashik",
+        "Kalyan-Dombivali",
+        "Vasai-Virar",
+        "Aurangabad",
+        "Navi Mumbai",
+        "Solapur"
+    ]
+}
+let op = "<option value=''>--Select State--</option>"
+$.each(stateCity,function(key,val){
+    op += `<option value="${key}">${key}</option>`
+})
+$("#state").html(op);
+$("#state").change(function(){
+    if($(this).val() != ""){
+        let state = $(this).val();
+        $("#city").attr("disabled",false);
+        let o = "<option value=''>--Select City--</option>";
+        $.each(stateCity,function(key,val){        
+            if(key == state){
+                $.each(val,function(index,city){
+                    o += `<option value='${city}'>${city}</option>`
+                });
+            }            
+        })
+        $("#city").html(o);
+    }else{
+        $("#city").attr("disabled",true);        
+    }
+})
+</script>
+</html>
