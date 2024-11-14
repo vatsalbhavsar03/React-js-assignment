@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js" integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js" integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Book Website</title>
+    <style>
+        .bookTitle{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block ruby;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="header mt-5">
+            <h1 align="center">Book Details</h1>
+        </section>
+        <section class="books-section">
+            <div class="row" id="book-body">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Book Name
+                        </div>
+                        <div class="card-body">
+                            <span class="pages">100</span>
+                            <img src="" alt="" height="300px" width="auto">
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="#" class="btn btn-primary ">View Details</a>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+<script>           
+    // ${value.volumeInfo.publishedDate}
+    $.ajax({
+        type : "GET",
+        method : "GET",
+        url : "https://www.googleapis.com/books/v1/volumes?q=ab",
+        success:function(response){
+            let col = "";
+            $.each(response.items, function(key, value){
+                col += 
+                `
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 my-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class='bookTitle'>${value.volumeInfo.title}</span>
+                        </div>
+                        <div class="card-body">
+                            <span class="pages">Pages ${value.volumeInfo.pageCount}</span>
+                            <img src="${value.volumeInfo.imageLinks.thumbnail}" alt="" height="300px" width="100%">
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="${value.volumeInfo.previewLink}" class="btn btn-primary ">View Details</a>
+                        </div>                    
+                    </div>
+                </div>
+                `
+            })
+            $("#book-body").html(col);  
+            console.log(response);
+        },
+        error:function(err){
+            console.log(err);
+        }
+    })
+</script>
+</html>

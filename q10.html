@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+      integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+      integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>Weather Information</title>
+    <style>
+        body {
+            background-color: #e0f7fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 5%;
+        }
+        .input-group {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .card {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #4fc3f7, #00bcd4);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 15px;
+        }
+        .weather-icon img {
+            width: 100px;
+        }
+        .weather-info span {
+            font-size: 1.2rem;
+        }
+        .location-time {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .temperature {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="post">
+            <div class="input-group my-5">
+                <input type="text" name="cityName" id="cityName" class="form-control" placeholder="Enter City Name..." required>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary" id="search" name="search">Get Weather Details</button>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="card w-75 text-center d-none">
+                    <div class="card-body" id="weather">                        
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    $("#search").click(function(e){
+        e.preventDefault();
+        if($("#cityName").val() != ""){
+            $.ajax({
+                type : "GET",
+                url : `https://weatherapi-com.p.rapidapi.com/current.json?q=${$("#cityName").val().trim()}`,
+                headers : {
+                    'X-RapidAPI-Key': 'f6e9b0aa7emshe26b2d490c954c1p1102fdjsn733b53e7767b',
+                    'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+                },
+                success : function(response){                
+                    console.log(response);
+                    $("#weather").html(`
+                        <div class="location-time">
+                            <span>${response.location.name}, ${response.location.country}</span>
+                            <br>
+                            <span>${response.location.localtime}</span>
+                        </div>
+                        <div class="weather-icon my-3">
+                            <img src="https:${response.current.condition.icon}" alt="${response.current.condition.text}">
+                        </div>
+                        <div class="temperature">${response.current.temp_c}°C</div>
+                        <div class="weather-info">
+                            <span><strong>Condition:</strong> ${response.current.condition.text}</span><br>
+                            <span><strong>Humidity:</strong> ${response.current.humidity}%</span><br>
+                            <span><strong>Wind Speed:</strong> ${response.current.wind_kph} kph</span><br>
+                            <span><strong>Feels Like:</strong> ${response.current.feelslike_c}°C</span>
+                        </div>
+                    `);
+                    $(".card").removeClass("d-none");
+                },
+                error : function(err){
+                    console.log(err);
+                    alert(err.responseJSON.error.message);        
+                }
+            })
+        } else {
+            alert("Please enter a city");
+            $(".card").addClass("d-none");
+        }
+    });
+</script>
+</html>

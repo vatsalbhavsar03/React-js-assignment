@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Div Visibility</title>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Styling the body */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #43bcdd 0%, #0c29a8 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        /* Button styling */
+        #toggleButton {
+            background-color: #0be32c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        #toggleButton:hover {
+            background-color: #251e20;
+            transform: scale(1.05);
+        }
+        /* Div styling */
+        #myDiv {
+            margin-top: 20px;
+            padding: 20px;
+            width: 300px;
+            background-color: #3c59ed;
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            display: none;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+        }
+        /* Animation for when div is shown */
+        #myDiv.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="toggleButton">Toggle Div</button>
+        <div id="myDiv">
+            <p>This is the div content.</p>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#toggleButton").click(function() {
+                $("#myDiv").toggleClass("show"); // Add/Remove 'show' class to apply animations
+            });
+        });
+    </script>
+</body>
+</html>
